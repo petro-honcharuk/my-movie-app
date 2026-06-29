@@ -16,7 +16,10 @@ export default function ItemComponent({ film }: Props) {
           router.push({
             pathname: "/DetailsScreen",
             params: {
-              data: film.id,
+              id: film.id,
+              title: film.title,
+              genre: film.genre,
+              rating: film.rating,
             },
           })
         }
