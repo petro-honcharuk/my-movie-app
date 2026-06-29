@@ -1,6 +1,6 @@
 import ItemComponent from "@/src/components/ItemComponent";
 import { MovieContext } from "@/src/context/MovieContext";
-import { films } from "@/src/data/data";
+
 import { useLocalSearchParams } from "expo-router";
 import React, { useContext } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -14,9 +14,9 @@ export default function DetailsScreen() {
   }>();
   const context = useContext(MovieContext);
   if (!context) return null;
-  const { favorites, toggleFavorites } = context;
+  const { favorites, toggleFavorites, allFilms } = context;
   const isFavorites = favorites.includes(id);
-  const detailFilm = films.find((item) => item.id === id);
+  const detailFilm = allFilms.find((item) => item.id === id);
 
   if (detailFilm)
     return (
