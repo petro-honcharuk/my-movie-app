@@ -1,5 +1,5 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import Feather from "@expo/vector-icons/Feather";
 import { Tabs } from "expo-router";
 export default function TabLayout() {
   return (
@@ -7,42 +7,20 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Фільми",
+          title: "Головна",
           headerTitle: "Список фільмів",
-          tabBarIcon: () => (
-            <FontAwesome name="file-movie-o" size={24} color="black" />
-          ),
+          tabBarIcon: () => <AntDesign name="home" size={24} color="black" />,
         }}
       />
-      <Tabs.Screen
-        name="favorites"
-        options={{
-          title: "Улюблені",
-          headerTitle: "Улюблені фільми",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="movie-open-star"
-              size={24}
-              color="black"
-            />
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="setting"
         options={{
-          title: "Переглянуті",
+          title: "Налаштування",
           headerTitle: "Налаштування",
-          tabBarIcon: () => (
-            <MaterialCommunityIcons
-              name="movie-open-check"
-              size={24}
-              color="black"
-            />
-          ),
+          tabBarIcon: () => <Feather name="settings" size={24} color="black" />,
         }}
       />
-      <Tabs.Screen name="DetailsScreen" options={{ href: null }} />
     </Tabs>
   );
 }
