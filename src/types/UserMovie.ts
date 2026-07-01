@@ -11,7 +11,7 @@ export interface UserMovie {
   userNotes?: string;
   releaseYear?: string;
 }
-type MovieListType = "watched" | "watchlist" | "favorites";
+export type MovieListType = "watched" | "watchlist" | "favorites";
 export type HomeStackParamList = {
   Home: undefined; // Параметри не потрібні
   Search: undefined; // Параметри не потрібні
