@@ -2,14 +2,14 @@ type MovieStatus = "watched" | "watchlist" | "dropped" | "rewatch";
 export interface UserMovie {
   id: number;
   title: string;
-  genre: string[];
-  rating: number;
-  poster_path: string;
+  genre_ids: number[];
+  vote_average: number;
+  poster_path: string | null;
   isFavorite: boolean;
   status: MovieStatus;
   watchCount: number;
   userNotes?: string;
-  releaseYear?: string;
+  release_date: string;
 }
 export type MovieListType = "watched" | "watchlist" | "favorites";
 export type HomeStackParamList = {

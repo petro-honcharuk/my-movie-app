@@ -95,9 +95,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   list: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#44575c",
+    // borderWidth: 1,
+    // borderRadius: 5,
+    // borderColor: "#44575c",
     marginHorizontal: 5,
     marginTop: 10,
     marginBottom: 50,
