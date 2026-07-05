@@ -5,13 +5,13 @@ export interface UserMovie {
   genre_ids: number[];
   vote_average: number;
   poster_path: string | null;
-  isFavorite: boolean;
-  status: MovieStatus;
-  watchCount: number;
+  isFavorite?: boolean;
+  status?: MovieStatus;
+  watchCount?: number;
   userNotes?: string;
   release_date: string;
 }
-export type MovieListType = "watched" | "watchlist" | "favorites";
+export type MovieListType = "watched" | "wantToWatch" | "favorites";
 export type HomeStackParamList = {
   Home: undefined; // Параметри не потрібні
   Search: undefined; // Параметри не потрібні

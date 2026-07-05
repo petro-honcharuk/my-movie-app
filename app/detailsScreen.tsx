@@ -1,3 +1,5 @@
+import { useMovie } from "@/src/hooks/useMovie";
+import { UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
@@ -10,12 +12,18 @@ import {
 } from "react-native";
 
 export default function DetailsScreen() {
+  const { filmId } = useLocalSearchParams();
+  const {
+    favorites,
+    toggleFavorites,
+    isWantToWatch,
+    toggleWantToWatch,
+    isWatched,
+    toggleWatched,
+  } = useMovie();
   const [movieDetails, setMovieDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isWatched, setIsWatched] = useState(false);
-  const [isWantToWatch, setIsWantToWatch] = useState(false);
 
-  const { filmId } = useLocalSearchParams();
   const searchMovieById = async (id: number) => {
     setIsLoading(true);
     const API_KEY = "60957792ffba17ec8b3c400a91e8f7b3";
@@ -27,7 +35,6 @@ export default function DetailsScreen() {
       setMovieDetails(data);
     } catch (e) {
       console.log("Помилка при завантажені фільму", e);
-      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
@@ -41,6 +48,21 @@ export default function DetailsScreen() {
   if (isLoading || !movieDetails) {
     return <ActivityIndicator />;
   }
+
+  const isFavorite = favorites.some((item) => item.id === movieDetails?.id);
+  const isWant = isWantToWatch.some((item) => item.id === movieDetails?.id);
+  const isDone = isWatched.some((item) => item.id === movieDetails?.id);
+  const movieToSave: UserMovie = {
+    id: movieDetails.id,
+    title: movieDetails.title,
+    poster_path: movieDetails.poster_path,
+    vote_average: movieDetails.vote_average,
+    release_date: movieDetails.release_date,
+    // Перетворюємо масив об'єктів [{id: 28, name: "..."}] на масив чисел [28]
+    genre_ids: movieDetails.genres
+      ? movieDetails.genres.map((g: any) => g.id)
+      : [],
+  };
 
   return (
     <View style={styles.main}>
@@ -90,25 +112,29 @@ export default function DetailsScreen() {
       </View>
       <View style={styles.btnContainer}>
         <TouchableOpacity
-          style={isWantToWatch ? styles.btnActive : styles.btnInActive}
-          onPress={() => setIsWantToWatch(!isWantToWatch)}
+          style={isWant ? styles.btnActive : styles.btnInActive}
+          onPress={() => toggleWantToWatch(movieToSave)}
         >
-          <Text
-            style={
-              isWantToWatch ? styles.btnTextActive : styles.btnTextInActive
-            }
-          >
-            Хочу подивитися
+          <Text style={isWant ? styles.btnTextActive : styles.btnTextInActive}>
+            {isWant ? "Видалити з 'Хочу подивитися'" : "Хочу подивитися"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => setIsWatched(!isWatched)}
-          style={isWatched ? styles.btnActive : styles.btnInActive}
+          onPress={() => toggleWatched(movieToSave)}
+          style={isDone ? styles.btnActive : styles.btnInActive}
+        >
+          <Text style={isDone ? styles.btnTextActive : styles.btnTextInActive}>
+            {isDone ? "Видалити з 'Переглянуто'" : "Переглянуто"}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => toggleFavorites(movieToSave)}
+          style={isFavorite ? styles.btnActive : styles.btnInActive}
         >
           <Text
-            style={isWatched ? styles.btnTextActive : styles.btnTextInActive}
+            style={isFavorite ? styles.btnTextActive : styles.btnTextInActive}
           >
-            Переглянуто
+            {isFavorite ? "В улюблених" : "Додати в улюблені"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -177,33 +203,38 @@ const styles = StyleSheet.create({
     color: "#033a50",
   },
   btnContainer: {
+    position: "absolute",
+    bottom: 50,
+    backgroundColor: "#e3f4f1",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginHorizontal: 10,
+    //marginHorizontal: 10,
     marginTop: 20,
   },
   btnActive: {
-    height: 40,
-    width: 150,
-    backgroundColor: "#1b7abd",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
-  },
-  btnTextActive: {
-    fontSize: 16,
-    color: "white",
-  },
-  btnInActive: {
-    height: 40,
-    width: 150,
+    height: 50,
+    flex: 1,
+    marginHorizontal: 5,
     backgroundColor: "#adbac3",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 8,
   },
-  btnTextInActive: {
-    fontSize: 16,
+  btnTextActive: {
     color: "#2c2c2e",
+    textAlign: "center",
+  },
+  btnInActive: {
+    height: 50,
+    flex: 1,
+    marginHorizontal: 5,
+    backgroundColor: "#1b7abd",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+  },
+  btnTextInActive: {
+    color: "white",
+    textAlign: "center",
   },
 });

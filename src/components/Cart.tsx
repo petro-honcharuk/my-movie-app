@@ -2,6 +2,7 @@ import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MovieListType } from "../types/UserMovie";
+
 type Props = {
   title: string;
   listType: MovieListType;
@@ -9,6 +10,7 @@ type Props = {
 
 export default function Cart({ title, listType }: Props) {
   const router = useRouter();
+
   const handlePress = () => {
     router.push({
       pathname: "/movieGrid",

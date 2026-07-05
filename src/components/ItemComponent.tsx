@@ -33,7 +33,7 @@ export default function ItemComponent({ film }: Props) {
         </View>
         <Text style={styles.genreText} numberOfLines={1}>
           Жанр:{" "}
-          {film.genre_ids
+          {(film.genre_ids || [])
             .map((id) => GENRES_MAP[id])
             .filter(Boolean)
             .join(", ")}

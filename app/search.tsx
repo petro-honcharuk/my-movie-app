@@ -37,6 +37,7 @@ export default function Search() {
       setIsLoading(false);
     }
   };
+
   useEffect(() => {
     searchMovies(debounceSearchTerm);
   }, [debounceSearchTerm]);

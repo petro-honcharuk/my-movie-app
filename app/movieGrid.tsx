@@ -1,7 +1,10 @@
-import { MovieListType } from "@/src/types/UserMovie";
+import ItemComponent from "@/src/components/ItemComponent";
+import { useMovie } from "@/src/hooks/useMovie";
+import { MovieListType, UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+
 type MovieGridParams = {
   listType: MovieListType;
   title: string;
@@ -9,10 +12,33 @@ type MovieGridParams = {
 
 export default function MovieGrig() {
   const { listType, title } = useLocalSearchParams<MovieGridParams>();
+  const { favorites, isWantToWatch, isWatched } = useMovie();
+  let currentMovies: UserMovie[] = [];
+
+  switch (listType) {
+    case "favorites":
+      currentMovies = favorites;
+      break;
+    case "wantToWatch":
+      currentMovies = isWantToWatch;
+      break;
+    case "watched":
+      currentMovies = isWatched;
+      break;
+    default:
+      currentMovies = [];
+  }
+
   return (
     <View style={styles.main}>
-      <Text style={styles.headerTitle}>{title}</Text>
-      <Text style={styles.listTitle}>{listType}</Text>
+      <FlatList
+        data={currentMovies}
+        keyExtractor={(item) => item.id.toString()}
+        // Перевикористовуємо старий компонент картки
+        renderItem={({ item }) => <ItemComponent film={item} />}
+        // Додаємо обробку порожнього списку, якщо користувач ще нічого туди не додав
+        ListEmptyComponent={() => <Text>У цьому списку ще немає фільмів</Text>}
+      />
     </View>
   );
 }
