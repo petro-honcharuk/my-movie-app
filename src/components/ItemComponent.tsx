@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useMovie } from "../hooks/useMovie";
 import { GENRES_MAP } from "../types/Genres";
 import { UserMovie } from "../types/UserMovie";
 type Props = {
@@ -8,6 +9,12 @@ type Props = {
 };
 export default function ItemComponent({ film }: Props) {
   const router = useRouter();
+  const { favorites, isWantToWatch, isWatched } = useMovie();
+
+  const isFavorite = favorites.some((item) => item.id === film.id);
+  const isWant = isWantToWatch.some((item) => item.id === film.id);
+  const isDone = isWatched.some((item) => item.id === film.id);
+
   return (
     <TouchableOpacity
       style={styles.main}
@@ -27,6 +34,11 @@ export default function ItemComponent({ film }: Props) {
         </Text>
         <View style={styles.avarageYear}>
           <Text style={styles.avarageText}>{film.vote_average.toFixed(1)}</Text>
+          <View style={styles.statusIconsContainer}>
+            {isFavorite && <Text>⭐️</Text>}
+            {isWant && <Text>⏳</Text>}
+            {isDone && <Text>✅</Text>}
+          </View>
           <Text style={styles.ratindText}>
             Рік виходу: {film.release_date.slice(0, 4)}
           </Text>
@@ -89,5 +101,9 @@ const styles = StyleSheet.create({
     color: "#267486",
     marginRight: 10,
     marginTop: 20,
+  },
+  statusIconsContainer: {
+    flexDirection: "row",
+    gap: 10,
   },
 });

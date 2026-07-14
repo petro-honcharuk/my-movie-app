@@ -134,7 +134,7 @@ export default function DetailsScreen() {
           <Text
             style={isFavorite ? styles.btnTextActive : styles.btnTextInActive}
           >
-            {isFavorite ? "В улюблених" : "Додати в улюблені"}
+            {isFavorite ? "Видалити з  улюблених" : "Додати в улюблені"}
           </Text>
         </TouchableOpacity>
       </View>

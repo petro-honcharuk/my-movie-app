@@ -18,6 +18,21 @@ export default function RootLayout() {
           name="detailsScreen"
           options={{ headerTitleAlign: "center", title: "Деталі фільму" }}
         />
+        <Stack.Screen
+          name="statisticScreen"
+          options={{
+            headerTitleAlign: "center",
+            title: "Статистика користувача",
+          }}
+        />
+        <Stack.Screen
+          name="settingScreen"
+          options={{ headerTitleAlign: "center", title: "Налаштування" }}
+        />
+        <Stack.Screen
+          name="aboutScreen"
+          options={{ headerTitleAlign: "center", title: "Про програму" }}
+        />
       </Stack>
     </MovieProvider>
   );
