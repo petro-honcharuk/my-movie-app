@@ -5,7 +5,7 @@ import React from "react";
 import { ImageBackground, StyleSheet, Text, View } from "react-native";
 
 export default function StatisticScreen() {
-  const { isWatched, favorites, theme } = useMovie();
+  const { isWatched, favorites, theme, isDarkMode } = useMovie();
   const styles = getStyles(theme);
   const totalMinutes = isWatched.reduce((sum, film) => {
     return sum + (film.runtime || 100);
@@ -37,11 +37,16 @@ export default function StatisticScreen() {
     ? GENRES_MAP[favoriteGenreId]
     : "Ще немає даних";
 
+  const requireImage = isDarkMode
+    ? require("@/assets/images/fonStatistic.jpg")
+    : require("@/assets/images/fonStatistic2.jpg");
+
   return (
     <View style={styles.main}>
       <ImageBackground
         style={styles.row}
-        source={require("@/assets/images/fonStatistic.jpg")}
+        source={requireImage}
+        imageStyle={{ borderRadius: 8 }}
       >
         <Text style={styles.text}>Переглянутих фільмів 👁️:</Text>
         <Text style={styles.number}>{isWatched.length}</Text>
@@ -49,21 +54,24 @@ export default function StatisticScreen() {
 
       <ImageBackground
         style={styles.row}
-        source={require("@/assets/images/fonStatistic.jpg")}
+        source={requireImage}
+        imageStyle={{ borderRadius: 8 }}
       >
         <Text style={styles.text}>Улюблених фільмів ⭐:</Text>
         <Text style={styles.number}>{favorites.length}</Text>
       </ImageBackground>
       <ImageBackground
         style={styles.row}
-        source={require("@/assets/images/fonStatistic.jpg")}
+        source={requireImage}
+        imageStyle={{ borderRadius: 8 }}
       >
         <Text style={styles.text}>Улюблений жанр 📹:</Text>
         <Text style={styles.number}>{favoriteGenreName}</Text>
       </ImageBackground>
       <ImageBackground
         style={styles.row}
-        source={require("@/assets/images/fonStatistic.jpg")}
+        source={requireImage}
+        imageStyle={{ borderRadius: 8 }}
       >
         <Text style={styles.text}>Час у кіно ⏱:</Text>
         <Text style={styles.text}>

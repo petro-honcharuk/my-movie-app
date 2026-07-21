@@ -6,6 +6,7 @@ import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 export default function SettingScreen() {
   const { isDarkMode, toggleTheme, theme } = useMovie();
   const styles = getStyles(theme);
+
   return (
     <View style={styles.main}>
       <View style={styles.row}>

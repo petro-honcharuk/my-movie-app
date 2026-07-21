@@ -18,8 +18,11 @@ type Props = {
 
 export default function Cart({ title, listType }: Props) {
   const router = useRouter();
-  const { theme } = useMovie();
+  const { theme, isDarkMode } = useMovie();
   const styles = getStyles(theme);
+  const requireImage = isDarkMode
+    ? require("@/assets/images/fon2.jpg")
+    : require("@/assets/images/fonStatistic2.jpg");
 
   const handlePress = () => {
     router.push({
@@ -33,8 +36,9 @@ export default function Cart({ title, listType }: Props) {
   return (
     <TouchableOpacity style={styles.btnCard} onPress={handlePress}>
       <ImageBackground
-        source={require("@/assets/images/fon2.jpg")}
+        source={requireImage}
         style={styles.fonImage}
+        imageStyle={{ borderRadius: 8 }}
       >
         <View>
           <Text style={styles.cardText}>{title}:</Text>
@@ -47,7 +51,6 @@ export default function Cart({ title, listType }: Props) {
 const getStyles = (theme: AppTheme) =>
   StyleSheet.create({
     btnCard: {
-      borderWidth: 1,
       borderRadius: 5,
       borderColor: theme.border,
       backgroundColor: theme.cardBackground,

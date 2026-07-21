@@ -128,7 +128,7 @@ export const navigationLightTheme: Theme = {
   colors: {
     ...DefaultTheme.colors,
     background: "#f8f9fa", // ваш колір фону
-    card: "#ffffff", // колір верхньої панелі (Header)
+    card: "#cac0b8", // колір верхньої панелі (Header)
     text: "#1c1c1e", // колір тексту в заголовку
     border: "#ececec", // лінія під Header
     primary: "#1b7abd", // колір активних кнопок/вкладок

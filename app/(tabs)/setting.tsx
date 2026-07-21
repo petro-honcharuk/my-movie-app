@@ -11,8 +11,11 @@ import {
 
 export default function Setting() {
   const router = useRouter();
-  const { theme } = useMovie();
+  const { theme, isDarkMode } = useMovie();
   const styles = getStyles(theme);
+  const requireImage = isDarkMode
+    ? require("@/assets/images/fonSetting.jpg")
+    : require("@/assets/images/fonStatistic2.jpg");
   return (
     <View style={styles.main}>
       <TouchableOpacity
@@ -20,8 +23,9 @@ export default function Setting() {
         onPress={() => router.push("/statisticScreen")}
       >
         <ImageBackground
-          source={require("@/assets/images/fonSetting.jpg")}
+          source={requireImage}
           style={styles.image}
+          imageStyle={{ borderRadius: 8 }}
         >
           <Text style={styles.settingText}>📊 Статистика кіномана </Text>
         </ImageBackground>
@@ -31,8 +35,9 @@ export default function Setting() {
         onPress={() => router.push("/settingScreen")}
       >
         <ImageBackground
-          source={require("@/assets/images/fonSetting.jpg")}
+          source={requireImage}
           style={styles.image}
+          imageStyle={{ borderRadius: 8 }}
         >
           <Text style={styles.settingText}>🔩 Керування додатком</Text>
         </ImageBackground>
@@ -42,8 +47,9 @@ export default function Setting() {
         onPress={() => router.push("/aboutScreen")}
       >
         <ImageBackground
-          source={require("@/assets/images/fonSetting.jpg")}
+          source={requireImage}
           style={styles.image}
+          imageStyle={{ borderRadius: 8 }}
         >
           <Text style={styles.settingText}>🙊 Про програму</Text>
         </ImageBackground>

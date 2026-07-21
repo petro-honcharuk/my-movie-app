@@ -64,6 +64,7 @@ const getStyles = (theme: AppTheme) =>
       flexDirection: "row",
       borderBottomWidth: 1,
       borderBottomColor: theme.border,
+      borderRadius: 8,
       backgroundColor: theme.cardBackground,
       padding: 5,
       margin: 2,
