@@ -1,5 +1,6 @@
 import { AppTheme } from "@/src/Colors/colors";
 import { useMovie } from "@/src/hooks/useMovie";
+import { getMovieById } from "@/src/services/movies";
 import { UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
@@ -23,20 +24,16 @@ export default function DetailsScreen() {
     toggleWatched,
     theme,
   } = useMovie();
+  const styles = getStyles(theme);
   const [movieDetails, setMovieDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const searchMovieById = async (id: number) => {
+  const searchMovieById = async (movieId: string) => {
     setIsLoading(true);
-    const API_KEY = "60957792ffba17ec8b3c400a91e8f7b3";
-    const url = `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&language=uk-UA`;
+
     try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Помилка:${response.status}`);
-      const data = await response.json();
+      const data = await getMovieById({ movieId });
       setMovieDetails(data);
-    } catch (e) {
-      console.log("Помилка при завантажені фільму", e);
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +41,7 @@ export default function DetailsScreen() {
   const id = Array.isArray(filmId) ? filmId[0] : filmId;
   useEffect(() => {
     if (id) {
-      searchMovieById(Number(id));
+      searchMovieById(id);
     }
   }, [id]);
   if (isLoading || !movieDetails) {
@@ -66,7 +63,6 @@ export default function DetailsScreen() {
       : [],
     runtime: movieDetails.runtime,
   };
-  const styles = getStyles(theme);
 
   return (
     <View style={styles.main}>
