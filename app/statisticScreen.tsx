@@ -2,7 +2,7 @@ import { AppTheme } from "@/src/Colors/colors";
 import { useMovie } from "@/src/hooks/useMovie";
 import { GENRES_MAP } from "@/src/types/Genres";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ImageBackground, StyleSheet, Text, View } from "react-native";
 
 export default function StatisticScreen() {
   const { isWatched, favorites, theme } = useMovie();
@@ -39,24 +39,37 @@ export default function StatisticScreen() {
 
   return (
     <View style={styles.main}>
-      <View style={styles.row}>
+      <ImageBackground
+        style={styles.row}
+        source={require("@/assets/images/fonStatistic.jpg")}
+      >
         <Text style={styles.text}>Переглянутих фільмів 👁️:</Text>
         <Text style={styles.number}>{isWatched.length}</Text>
-      </View>
-      <View style={styles.row}>
+      </ImageBackground>
+
+      <ImageBackground
+        style={styles.row}
+        source={require("@/assets/images/fonStatistic.jpg")}
+      >
         <Text style={styles.text}>Улюблених фільмів ⭐:</Text>
         <Text style={styles.number}>{favorites.length}</Text>
-      </View>
-      <View style={styles.row}>
+      </ImageBackground>
+      <ImageBackground
+        style={styles.row}
+        source={require("@/assets/images/fonStatistic.jpg")}
+      >
         <Text style={styles.text}>Улюблений жанр 📹:</Text>
         <Text style={styles.number}>{favoriteGenreName}</Text>
-      </View>
-      <View style={styles.row}>
+      </ImageBackground>
+      <ImageBackground
+        style={styles.row}
+        source={require("@/assets/images/fonStatistic.jpg")}
+      >
         <Text style={styles.text}>Час у кіно ⏱:</Text>
         <Text style={styles.text}>
           {Math.floor(totalMinutes / 60)} год. {totalMinutes % 60} хв.
         </Text>
-      </View>
+      </ImageBackground>
     </View>
   );
 }
@@ -70,9 +83,10 @@ const getStyles = (theme: AppTheme) =>
     row: {
       flexDirection: "row",
       justifyContent: "space-between",
-      height: 60,
+      height: 70,
       alignItems: "center",
       marginVertical: 10,
+      marginHorizontal: 5,
       backgroundColor: theme.cardBackground,
       borderBottomColor: theme.border,
       borderRadius: 8,
@@ -86,5 +100,9 @@ const getStyles = (theme: AppTheme) =>
       color: theme.text,
       fontSize: 18,
       marginRight: 10,
+    },
+    image: {
+      height: "100%",
+      width: "100%",
     },
   });

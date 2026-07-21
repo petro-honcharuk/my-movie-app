@@ -140,8 +140,8 @@ export const navigationDarkTheme: Theme = {
   ...DarkTheme,
   colors: {
     ...DarkTheme.colors,
-    background: "#0f1217", // ваш темний фон
-    card: "#19202c", // темний Header
+    background: "#243147", // ваш темний фон
+    card: "#243147", // темний Header
     text: "#ffffff", // білий текст заголовку
     border: "#263143", // темна лінія під Header
     primary: "#1b7abd",

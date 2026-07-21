@@ -1,6 +1,12 @@
 import { useRouter } from "expo-router";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AppTheme } from "../Colors/colors";
 import { useMovie } from "../hooks/useMovie";
 import { MovieListType } from "../types/UserMovie";
@@ -26,9 +32,14 @@ export default function Cart({ title, listType }: Props) {
   };
   return (
     <TouchableOpacity style={styles.btnCard} onPress={handlePress}>
-      <View>
-        <Text style={styles.cardText}>{title}:</Text>
-      </View>
+      <ImageBackground
+        source={require("@/assets/images/fon2.jpg")}
+        style={styles.fonImage}
+      >
+        <View>
+          <Text style={styles.cardText}>{title}:</Text>
+        </View>
+      </ImageBackground>
     </TouchableOpacity>
   );
 }
@@ -43,14 +54,18 @@ const getStyles = (theme: AppTheme) =>
       height: 100,
       marginHorizontal: 5,
       marginVertical: 5,
-      alignItems: "center",
-      justifyContent: "center",
     },
     cardText: {
       marginHorizontal: 10,
       marginVertical: 5,
-      fontSize: 18,
+      fontSize: 22,
       fontWeight: "bold",
       color: theme.text,
+    },
+    fonImage: {
+      height: "100%",
+      width: "100%",
+      alignItems: "center",
+      justifyContent: "center",
     },
   });
