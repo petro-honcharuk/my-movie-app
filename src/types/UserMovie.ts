@@ -10,6 +10,7 @@ export interface UserMovie {
   watchCount?: number;
   userNotes?: string;
   release_date: string;
+  runtime?: number;
 }
 export type MovieListType = "watched" | "wantToWatch" | "favorites";
 export type HomeStackParamList = {

@@ -1,13 +1,14 @@
+import { AppTheme } from "@/src/Colors/colors";
 import Cart from "@/src/components/Cart";
+import { useMovie } from "@/src/hooks/useMovie";
 import { useRouter } from "expo-router";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
-  // useEffect(() => {
-  //   // Додайте цей рядок ОДИН РАЗ, запустіть додаток, щоб пам'ять стерлася, а потім видаліть його
-  //   AsyncStorage.clear();
-  // }, []);
+  const { theme } = useMovie();
+  const styles = getStyles(theme);
+
   return (
     <View style={styles.main}>
       <TouchableOpacity onPress={() => router.push("/search")}>
@@ -25,15 +26,18 @@ export default function Index() {
   );
 }
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#44575c",
-    marginHorizontal: 5,
-    marginVertical: 10,
-  },
-});
+const getStyles = (theme: AppTheme) =>
+  StyleSheet.create({
+    main: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
+    input: {
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: theme.border,
+      marginHorizontal: 5,
+      marginVertical: 10,
+      backgroundColor: "#ecedee",
+    },
+  });

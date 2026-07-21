@@ -1,3 +1,4 @@
+import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
 import { useMovie } from "@/src/hooks/useMovie";
 import { MovieListType, UserMovie } from "@/src/types/UserMovie";
@@ -12,8 +13,9 @@ type MovieGridParams = {
 
 export default function MovieGrig() {
   const { listType, title } = useLocalSearchParams<MovieGridParams>();
-  const { favorites, isWantToWatch, isWatched } = useMovie();
+  const { favorites, isWantToWatch, isWatched, theme } = useMovie();
   const [searchText, setSearchText] = useState("");
+  const styles = getStyles(theme);
   let currentMovies: UserMovie[] = [];
 
   switch (listType) {
@@ -57,25 +59,19 @@ export default function MovieGrig() {
   );
 }
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    margin: 8,
-    alignSelf: "center",
-  },
-  listTitle: {
-    fontSize: 12,
-    alignSelf: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#44575c",
-    marginHorizontal: 5,
-    marginVertical: 10,
-  },
-});
+const getStyles = (theme: AppTheme) =>
+  StyleSheet.create({
+    main: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
+
+    input: {
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: theme.border,
+      marginHorizontal: 5,
+      marginVertical: 10,
+      backgroundColor: "#ecedee",
+    },
+  });

@@ -1,6 +1,7 @@
 import { useRouter } from "expo-router";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { AppTheme } from "../Colors/colors";
 import { useMovie } from "../hooks/useMovie";
 import { GENRES_MAP } from "../types/Genres";
 import { UserMovie } from "../types/UserMovie";
@@ -9,11 +10,12 @@ type Props = {
 };
 export default function ItemComponent({ film }: Props) {
   const router = useRouter();
-  const { favorites, isWantToWatch, isWatched } = useMovie();
+  const { favorites, isWantToWatch, isWatched, theme } = useMovie();
 
   const isFavorite = favorites.some((item) => item.id === film.id);
   const isWant = isWantToWatch.some((item) => item.id === film.id);
   const isDone = isWatched.some((item) => item.id === film.id);
+  const styles = getStyles(theme);
 
   return (
     <TouchableOpacity
@@ -55,55 +57,59 @@ export default function ItemComponent({ film }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
-  main: {
-    height: 105,
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ecececec",
-    padding: 5,
-  },
-  imageParth: {
-    height: 95,
-    width: 65,
-  },
-  infoPatrth: {
-    flex: 1,
-    flexDirection: "column",
-    marginLeft: 12,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
-  image: {
-    height: "100%",
-    width: "100%",
-    resizeMode: "cover",
-    borderRadius: 8,
-  },
-  avarageYear: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  avarageText: {
-    fontSize: 16,
-    color: "#ee5109",
-    fontWeight: "bold",
-  },
-  ratindText: {
-    fontSize: 13,
-    color: "#029a5a",
-    marginHorizontal: 10,
-  },
-  genreText: {
-    fontSize: 12,
-    color: "#267486",
-    marginRight: 10,
-    marginTop: 20,
-  },
-  statusIconsContainer: {
-    flexDirection: "row",
-    gap: 10,
-  },
-});
+const getStyles = (theme: AppTheme) =>
+  StyleSheet.create({
+    main: {
+      height: 105,
+      flexDirection: "row",
+      borderBottomWidth: 1,
+      borderBottomColor: theme.border,
+      backgroundColor: theme.cardBackground,
+      padding: 5,
+      margin: 2,
+    },
+    imageParth: {
+      height: 95,
+      width: 65,
+    },
+    infoPatrth: {
+      flex: 1,
+      flexDirection: "column",
+      marginLeft: 12,
+    },
+    title: {
+      fontSize: 18,
+      fontWeight: "bold",
+      color: theme.text,
+    },
+    image: {
+      height: "100%",
+      width: "100%",
+      resizeMode: "cover",
+      borderRadius: 8,
+    },
+    avarageYear: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+    avarageText: {
+      fontSize: 16,
+      color: theme.textMuted,
+      fontWeight: "bold",
+    },
+    ratindText: {
+      fontSize: 13,
+      color: theme.textMuted,
+      marginHorizontal: 10,
+    },
+    genreText: {
+      fontSize: 12,
+      color: theme.textMuted,
+      marginRight: 10,
+      marginTop: 20,
+    },
+    statusIconsContainer: {
+      flexDirection: "row",
+      gap: 10,
+    },
+  });

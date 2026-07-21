@@ -1,3 +1,4 @@
+import { AppTheme } from "@/src/Colors/colors";
 import { useMovie } from "@/src/hooks/useMovie";
 import { UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
@@ -20,6 +21,7 @@ export default function DetailsScreen() {
     toggleWantToWatch,
     isWatched,
     toggleWatched,
+    theme,
   } = useMovie();
   const [movieDetails, setMovieDetails] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,7 +64,9 @@ export default function DetailsScreen() {
     genre_ids: movieDetails.genres
       ? movieDetails.genres.map((g: any) => g.id)
       : [],
+    runtime: movieDetails.runtime,
   };
+  const styles = getStyles(theme);
 
   return (
     <View style={styles.main}>
@@ -86,7 +90,7 @@ export default function DetailsScreen() {
             <View style={styles.mainTextInfo}>
               {movieDetails.genres.map((g: { id: number; name: string }) => (
                 <View key={g.id}>
-                  <Text>{g.name},</Text>
+                  <Text style={styles.textInfo}>{g.name},</Text>
                 </View>
               ))}
             </View>
@@ -142,99 +146,103 @@ export default function DetailsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginLeft: 8,
-    alignSelf: "center",
-    marginVertical: 5,
-  },
-  mainInfo: {
-    flexDirection: "row",
-    marginVertical: 8,
-    marginHorizontal: 10,
-  },
-  image: {
-    width: 150,
-    height: 250,
-    borderRadius: 8,
-  },
-  info: {
-    flex: 1,
-    flexDirection: "column",
-    marginHorizontal: 10,
-  },
-  titleText: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-
-    marginTop: 10,
-    // borderWidth: 1,
-  },
-  textInfo: {
-    fontSize: 14,
-    color: "#172433",
-  },
-  mainTextInfo: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    width: "49%",
-    justifyContent: "flex-end",
-    //borderWidth: 1,
-  },
-  overviewContainer: {
-    marginVertical: 10,
-    marginHorizontal: 10,
-  },
-  overviewTitle: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#033a50",
-    borderBottomWidth: 1,
-    borderBottomColor: "#70adbf",
-  },
-  overviewText: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#033a50",
-  },
-  btnContainer: {
-    position: "absolute",
-    bottom: 50,
-    backgroundColor: "#e3f4f1",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    //marginHorizontal: 10,
-    marginTop: 20,
-  },
-  btnActive: {
-    height: 50,
-    flex: 1,
-    marginHorizontal: 5,
-    backgroundColor: "#adbac3",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
-  },
-  btnTextActive: {
-    color: "#2c2c2e",
-    textAlign: "center",
-  },
-  btnInActive: {
-    height: 50,
-    flex: 1,
-    marginHorizontal: 5,
-    backgroundColor: "#1b7abd",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 8,
-  },
-  btnTextInActive: {
-    color: "white",
-    textAlign: "center",
-  },
-});
+const getStyles = (theme: AppTheme) =>
+  StyleSheet.create({
+    main: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginLeft: 8,
+      alignSelf: "center",
+      marginVertical: 5,
+      color: theme.text,
+    },
+    mainInfo: {
+      flexDirection: "row",
+      marginVertical: 8,
+      marginHorizontal: 10,
+    },
+    image: {
+      width: 150,
+      height: 250,
+      borderRadius: 8,
+    },
+    info: {
+      flex: 1,
+      flexDirection: "column",
+      marginHorizontal: 10,
+      color: theme.text,
+    },
+    titleText: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      color: theme.text,
+      marginTop: 10,
+      // borderWidth: 1,
+    },
+    textInfo: {
+      fontSize: 14,
+      color: theme.text,
+    },
+    mainTextInfo: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      width: "49%",
+      justifyContent: "flex-end",
+      color: theme.text,
+      //borderWidth: 1,
+    },
+    overviewContainer: {
+      marginVertical: 10,
+      marginHorizontal: 10,
+    },
+    overviewTitle: {
+      fontSize: 16,
+      fontWeight: "400",
+      color: theme.text,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.border,
+    },
+    overviewText: {
+      fontSize: 16,
+      fontWeight: "400",
+      color: theme.text,
+    },
+    btnContainer: {
+      position: "absolute",
+      bottom: 50,
+      backgroundColor: theme.background,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 20,
+    },
+    btnActive: {
+      height: 50,
+      flex: 1,
+      marginHorizontal: 5,
+      backgroundColor: "#adbac3",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 8,
+    },
+    btnTextActive: {
+      color: "#2c2c2e",
+      textAlign: "center",
+    },
+    btnInActive: {
+      height: 50,
+      flex: 1,
+      marginHorizontal: 5,
+      backgroundColor: "#1b7abd",
+      alignItems: "center",
+      justifyContent: "center",
+      borderRadius: 8,
+    },
+    btnTextInActive: {
+      color: "white",
+      textAlign: "center",
+    },
+  });

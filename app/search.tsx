@@ -1,5 +1,7 @@
+import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
 import { useDebounce } from "@/src/hooks/useDebounse";
+import { useMovie } from "@/src/hooks/useMovie";
 import { UserMovie } from "@/src/types/UserMovie";
 import React, { useEffect, useState } from "react";
 import {
@@ -15,7 +17,9 @@ export default function Search() {
   const [searchText, setSearchText] = useState("");
   const [movies, setMovies] = useState<UserMovie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const debounceSearchTerm = useDebounce(searchText, 2500);
+  const debounceSearchTerm = useDebounce(searchText, 700);
+  const { theme } = useMovie();
+  const styles = getStyles(theme);
 
   const searchMovies = async (text: string) => {
     if (text.length === 0) {
@@ -77,33 +81,39 @@ export default function Search() {
 
           // 3. Якщо ми пройшли перші дві умови, це означає: текст є, завантаження завершено,
           // а FlatList все одно викликав цей компонент (бо масив movies пустий).
-          return <Text>Нічого не знайдено...</Text>;
+          return <Text style={styles.text}>Нічого не знайдено...</Text>;
         }}
       />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-  input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#44575c",
-    marginHorizontal: 5,
-    marginVertical: 10,
-  },
-  list: {
-    // borderWidth: 1,
-    // borderRadius: 5,
-    // borderColor: "#44575c",
-    marginHorizontal: 5,
-    marginTop: 10,
-    marginBottom: 50,
-  },
-  loader: {
-    marginVertical: 10,
-  },
-});
+const getStyles = (theme: AppTheme) =>
+  StyleSheet.create({
+    main: {
+      flex: 1,
+      backgroundColor: theme.background,
+    },
+    input: {
+      borderWidth: 1,
+      borderRadius: 5,
+      borderColor: theme.border,
+      marginHorizontal: 5,
+      marginVertical: 15,
+      backgroundColor: "#ecedee",
+    },
+    list: {
+      // borderColor: "#44575c",
+      marginHorizontal: 5,
+      marginTop: 10,
+      marginBottom: 50,
+    },
+    loader: {
+      marginVertical: 10,
+    },
+    text: {
+      color: theme.text,
+      fontSize: 16,
+      marginLeft: 10,
+    },
+  });
