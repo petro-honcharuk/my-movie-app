@@ -1,9 +1,11 @@
 import { AppTheme } from "@/src/Colors/colors";
+import Cart from "@/src/components/Cart";
 import { useTheme } from "@/src/hooks/useTheme";
+import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 
 export default function Index() {
-  //const router = useRouter();
+  const router = useRouter();
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
@@ -17,9 +19,9 @@ export default function Index() {
           pointerEvents="none"
         />
       </TouchableOpacity> */}
-      {/* <Cart title="Топ моїх улюблених фільмів" listType="favorites" />
+      <Cart title="Топ моїх улюблених фільмів" listType="favorites" />
       <Cart title="Фільми які я хочу подивитися" listType="wantToWatch" />
-      <Cart title="Показати всі переглянуті фільми" listType="watched" /> */}
+      <Cart title="Показати всі переглянуті фільми" listType="watched" />
     </View>
   );
 }

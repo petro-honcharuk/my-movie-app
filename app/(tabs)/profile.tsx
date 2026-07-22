@@ -1,58 +1,40 @@
 import { AppTheme } from "@/src/Colors/colors";
-import { useMovie } from "@/src/hooks/useMovie";
+import { useTheme } from "@/src/hooks/useTheme";
 import { useRouter } from "expo-router";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Setting() {
   const router = useRouter();
-  const { theme, isDarkMode } = useMovie();
+  const { theme, isDarkMode } = useTheme();
   const styles = getStyles(theme);
-  const requireImage = isDarkMode
-    ? require("@/assets/images/fonSetting.jpg")
-    : require("@/assets/images/fonStatistic2.jpg");
+
   return (
     <View style={styles.main}>
       <TouchableOpacity
         style={styles.block}
-        onPress={() => router.push("/statisticScreen")}
+        onPress={() => router.push("/statistic")}
       >
-        <ImageBackground
-          source={requireImage}
-          style={styles.image}
-          imageStyle={{ borderRadius: 8 }}
-        >
+        <View style={styles.image}>
           <Text style={styles.settingText}>📊 Статистика кіномана </Text>
-        </ImageBackground>
+        </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.block}
-        onPress={() => router.push("/settingScreen")}
+        onPress={() => router.push("/setting")}
       >
-        <ImageBackground
-          source={requireImage}
-          style={styles.image}
-          imageStyle={{ borderRadius: 8 }}
-        >
+        <View style={styles.image}>
           <Text style={styles.settingText}>🔩 Керування додатком</Text>
-        </ImageBackground>
+        </View>
       </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.block}
-        onPress={() => router.push("/aboutScreen")}
+        onPress={() => router.push("/about")}
       >
-        <ImageBackground
-          source={requireImage}
-          style={styles.image}
-          imageStyle={{ borderRadius: 8 }}
-        >
+        <View style={styles.image}>
           <Text style={styles.settingText}>🙊 Про програму</Text>
-        </ImageBackground>
+        </View>
       </TouchableOpacity>
     </View>
   );

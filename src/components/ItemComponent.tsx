@@ -3,6 +3,7 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AppTheme } from "../Colors/colors";
 import { useMovie } from "../hooks/useMovie";
+import { useTheme } from "../hooks/useTheme";
 import { GENRES_MAP } from "../types/Genres";
 import { UserMovie } from "../types/UserMovie";
 type Props = {
@@ -10,7 +11,8 @@ type Props = {
 };
 export default function ItemComponent({ film }: Props) {
   const router = useRouter();
-  const { favorites, isWantToWatch, isWatched, theme } = useMovie();
+  const { theme } = useTheme();
+  const { favorites, isWantToWatch, isWatched } = useMovie();
 
   const isFavorite = favorites.some((item) => item.id === film.id);
   const isWant = isWantToWatch.some((item) => item.id === film.id);
@@ -21,7 +23,7 @@ export default function ItemComponent({ film }: Props) {
     <TouchableOpacity
       style={styles.main}
       onPress={() =>
-        router.push({ pathname: "/detailsScreen", params: { filmId: film.id } })
+        router.push({ pathname: "/details", params: { filmId: film.id } })
       }
     >
       <View style={styles.imageParth}>

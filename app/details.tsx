@@ -1,5 +1,6 @@
 import { AppTheme } from "@/src/Colors/colors";
 import { useMovie } from "@/src/hooks/useMovie";
+import { useTheme } from "@/src/hooks/useTheme";
 import { getMovieById } from "@/src/services/movies";
 import { UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
@@ -15,6 +16,7 @@ import {
 
 export default function DetailsScreen() {
   const { filmId } = useLocalSearchParams();
+  const { theme } = useTheme();
   const {
     favorites,
     toggleFavorites,
@@ -22,7 +24,6 @@ export default function DetailsScreen() {
     toggleWantToWatch,
     isWatched,
     toggleWatched,
-    theme,
   } = useMovie();
   const styles = getStyles(theme);
   const [movieDetails, setMovieDetails] = useState<any>(null);

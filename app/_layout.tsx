@@ -1,24 +1,27 @@
+import { MovieProvider } from "@/src/context/MovieContext";
 import {
-  MovieProvider,
+  AppThemeProvider,
   navigationDarkTheme,
   navigationLightTheme,
-} from "@/src/context/MovieContext";
-import { useMovie } from "@/src/hooks/useMovie";
+} from "@/src/context/ThemeContext";
+import { useTheme } from "@/src/hooks/useTheme";
 import { ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 
 // 1. ГОЛОВНИЙ КОМПОНЕНТ (Він лише ініціалізує контекст і не використовує хуки зверху)
 export default function RootLayout() {
   return (
-    <MovieProvider>
-      <AppNavigationContent />
-    </MovieProvider>
+    <AppThemeProvider>
+      <MovieProvider>
+        <AppNavigationContent />
+      </MovieProvider>
+    </AppThemeProvider>
   );
 }
 
 // 2. ВНУТРІШНІЙ КОМПОНЕНТ (Тепер він всередині MovieProvider і хук useMovie працюватиме ідеально!)
 function AppNavigationContent() {
-  const { isDarkMode } = useMovie();
+  const { isDarkMode } = useTheme();
 
   const currentNavigationTheme = isDarkMode
     ? navigationDarkTheme
@@ -33,26 +36,26 @@ function AppNavigationContent() {
           options={{ headerTitleAlign: "center", title: "Пошук" }}
         />
         <Stack.Screen
-          name="movieGrid"
+          name="movie_grid"
           options={{ headerTitleAlign: "center", title: "Фільми" }}
         />
         <Stack.Screen
-          name="detailsScreen"
+          name="details"
           options={{ headerTitleAlign: "center", title: "Деталі фільму" }}
         />
         <Stack.Screen
-          name="statisticScreen"
+          name="statistic"
           options={{
             headerTitleAlign: "center",
             title: "Статистика користувача",
           }}
         />
         <Stack.Screen
-          name="settingScreen"
+          name="setting"
           options={{ headerTitleAlign: "center", title: "Налаштування" }}
         />
         <Stack.Screen
-          name="aboutScreen"
+          name="about"
           options={{ headerTitleAlign: "center", title: "Про програму" }}
         />
       </Stack>
