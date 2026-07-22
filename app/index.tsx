@@ -1,119 +1,111 @@
-import ItemComponent from "@/src/components/ItemComponent";
-import { AppTheme } from "@/src/constants/colors";
-import { useDebounce } from "@/src/hooks/useDebounse";
-import { useMovie } from "@/src/hooks/useMovie";
-import { createStyles, useStyles } from "@/src/theme";
-import { UserMovie } from "@/src/types/UserMovie";
-import { useEffect, useState } from "react";
+import { SearchMovieItem } from "@/src/components/SearchMovieItem";
+import { useSearchMovies } from "@/src/hooks/useSearchMovies.hook";
+import { MovieResult } from "@/src/services/types";
+import { useState } from "react";
 import {
-  ActivityIndicator,
-  FlatList,
-  StyleSheet,
-  Text,
   TextInput,
   View,
+  StyleSheet,
+  FlatList,
+  Text,
+  RefreshControl,
+  ActivityIndicator,
+  ListRenderItemInfo,
 } from "react-native";
 
-export default function Search() {
+export default function SearchPage() {
   const [searchText, setSearchText] = useState("");
-  const [movies, setMovies] = useState<UserMovie[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const debounceSearchTerm = useDebounce(searchText, 700);
 
-  const { styles } = useStyles(stylesheet);
+  const { data, isLoading, error } = useSearchMovies({
+    searchQuery: searchText,
+  });
 
-  const searchMovies = async (text: string) => {
-    if (text.length === 0) {
-      setMovies([]);
-      return;
-    }
-    setIsLoading(true);
-    const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=uk-UA&query=${encodeURIComponent(text)}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Помилка:${response.status}`);
-      const data = await response.json();
-      setMovies(data.results || []);
-
-      setIsLoading(false);
-    } catch (e) {
-      console.log("Помилка при звернені до сервера", e);
-      setIsLoading(false);
-    }
+  const renderMovieItem = ({ item }: ListRenderItemInfo<MovieResult>) => {
+    return <SearchMovieItem {...item} />;
   };
 
-  useEffect(() => {
-    searchMovies(debounceSearchTerm);
-  }, [debounceSearchTerm]);
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text selectable style={styles.errorText}>
+          Error: {error.message}
+        </Text>
+      </View>
+    );
+  }
 
   return (
-    <View style={styles.main}>
+    <View style={styles.container}>
       <TextInput
-        style={styles.input}
+        placeholder="Пошук фільмів…"
+        placeholderTextColor="#8b93a7"
+        style={styles.searchInput}
         value={searchText}
-        onChangeText={(text) => {
-          setSearchText(text);
-        }}
-        autoFocus={true}
+        onChangeText={setSearchText}
       />
-
       <FlatList
-        data={movies}
+        data={data}
+        renderItem={renderMovieItem}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ItemComponent film={item} />}
-        style={styles.list}
-        ListEmptyComponent={() => {
-          // 1. Спочатку перевіряємо, чи введено взагалі щось
-          if (searchText.length === 0) {
-            return null;
-          }
-
-          // 2. Якщо текст є і зараз йде завантаження — показуємо лоадер
-          if (isLoading) {
-            return (
-              <ActivityIndicator
-                size="large"
-                color="#1164d7"
-                style={styles.loader}
-              />
-            );
-          }
-
-          // 3. Якщо ми пройшли перші дві умови, це означає: текст є, завантаження завершено,
-          // а FlatList все одно викликав цей компонент (бо масив movies пустий).
-          return <Text style={styles.text}>Нічого не знайдено...</Text>;
-        }}
+        contentContainerStyle={styles.listContent}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListEmptyComponent={
+          <Text style={styles.emptyText}>
+            {searchText ? "Фільмів не знайдено" : "Почніть пошук"}
+          </Text>
+        }
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            tintColor="#e8b86d"
+            onRefresh={() => {
+              setSearchText("");
+              setSearchText(searchText);
+            }}
+          />
+        }
+        ListFooterComponent={
+          isLoading ? (
+            <ActivityIndicator size="large" color="#e8b86d" />
+          ) : null
+        }
       />
     </View>
   );
 }
 
-const stylesheet = createStyles((theme) => ({
-  main: {
+const styles = StyleSheet.create({
+  container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: "#0b0d12",
+    gap: 12,
   },
-  input: {
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: theme.colors.border,
-    marginHorizontal: 5,
-    marginVertical: 15,
-    backgroundColor: "#ecedee",
-  },
-  list: {
-    // borderColor: "#44575c",
-    marginHorizontal: 5,
-    marginTop: 10,
-    marginBottom: 50,
-  },
-  loader: {
-    marginVertical: 10,
-  },
-  text: {
-    color: theme.colors.text,
+  searchInput: {
+    height: 44,
+    borderRadius: 12,
+    borderCurve: "continuous",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(255,255,255,0.12)",
+    backgroundColor: "rgba(255,255,255,0.05)",
+    color: "#f7f4ef",
+    paddingHorizontal: 14,
     fontSize: 16,
-    marginLeft: 10,
   },
-}));
+  listContent: {
+    paddingBottom: 24,
+    flexGrow: 1,
+  },
+  separator: {
+    height: 10,
+  },
+  emptyText: {
+    color: "#8b93a7",
+    textAlign: "center",
+    marginTop: 40,
+    fontSize: 15,
+  },
+  errorText: {
+    color: "#f0c4c4",
+    textAlign: "center",
+  },
+});

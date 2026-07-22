@@ -1,14 +1,13 @@
 import axios from "axios";
 
 export const movieApi = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_API_URL,
+  baseURL: "https://api.themoviedb.org/3",
 });
 
 movieApi.interceptors.request.use((config) => {
   config.params = {
-    api_key: process.env.EXPO_PUBLIC_API_KEY,
-    language: "uk-UA",
     ...config.params,
+    api_key: process.env.EXPO_PUBLIC_API_KEY,
   };
   return config;
 });

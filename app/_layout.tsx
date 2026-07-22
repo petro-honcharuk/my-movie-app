@@ -1,33 +1,31 @@
 import { Stack } from "expo-router";
 
-import { ThemeProvider } from "@/src/theme/index";
-
 export default function RootLayout() {
   return (
-    <ThemeProvider>
-      <Stack>
-        <Stack.Screen
-          name="(tabs)"
-          options={{ headerShown: false, headerTitleAlign: "center" }}
-        />
-        <Stack.Screen name="search" options={{ title: "Пошук" }} />
-        {/* <Stack.Screen name="movieGrid" options={{ title: "Фільми" }} />
-        <Stack.Screen
-          name="detailsScreen"
-          options={{ title: "Деталі фільму" }}
-        />
-        <Stack.Screen
-          name="statisticScreen"
-          options={{
-            title: "Статистика користувача",
-          }}
-        />
-        <Stack.Screen
-          name="settingScreen"
-          options={{ title: "Налаштування" }}
-        />
-        <Stack.Screen name="aboutScreen" options={{ title: "Про програму" }} /> */}
-      </Stack>
-    </ThemeProvider>
+    <Stack
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: "#0b0d12",
+          paddingHorizontal: 16,
+          paddingVertical: 12,
+        },
+        headerStyle: { backgroundColor: "#0b0d12" },
+        headerTintColor: "#f4f1ea",
+        headerTitleStyle: { color: "#f4f1ea" },
+      }}
+    >
+      <Stack.Screen name="index" options={{ title: "Пошук" }} />
+      <Stack.Screen
+        name="detail"
+        options={{
+          title: "Деталі",
+          contentStyle: {
+            backgroundColor: "#0b0d12",
+            paddingHorizontal: 0,
+            paddingVertical: 0,
+          },
+        }}
+      />
+    </Stack>
   );
 }

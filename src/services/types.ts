@@ -2,14 +2,19 @@ export interface GenresResponse {
   genres: Genre[];
 }
 
+export interface Genre {
+  id: number;
+  name: string;
+}
+
 export interface SearchMovieResponse {
   page: number;
-  results: SearchMovieResult[];
+  results: MovieResult[];
   total_pages: number;
   total_results: number;
 }
 
-export interface SearchMovieResult {
+export interface MovieResult {
   adult: boolean;
   backdrop_path?: string;
   genre_ids: number[];
@@ -27,7 +32,7 @@ export interface SearchMovieResult {
   vote_count: number;
 }
 
-export interface MovieDetails {
+export interface MovieDetailsResponse {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: any;
@@ -55,14 +60,6 @@ export interface MovieDetails {
   video: boolean;
   vote_average: number;
   vote_count: number;
-  isFavorite?: boolean;
-  isWantToWatch?: boolean;
-  isWatched?: boolean;
-}
-
-export interface Genre {
-  id: number;
-  name: string;
 }
 
 export interface ProductionCompany {
