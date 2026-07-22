@@ -1,5 +1,4 @@
 import { useRouter } from "expo-router";
-import React from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -7,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { AppTheme } from "../Colors/colors";
+import { AppTheme } from "../constants/colors";
 import { useMovie } from "../hooks/useMovie";
 import { MovieListType } from "../types/UserMovie";
 

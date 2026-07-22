@@ -1,18 +1,19 @@
-import { useMovie } from "@/src/hooks/useMovie";
-//import AntDesign from "@expo/vector-icons/AntDesign";
 import { Tabs } from "expo-router";
 import { Text } from "react-native";
+
+import { useTheme } from "@/src/theme";
+
 export default function TabLayout() {
-  const { theme } = useMovie();
+  const { theme } = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerTitleAlign: "center",
-        tabBarActiveTintColor: theme.text,
-        tabBarInactiveTintColor: theme.textMuted,
+        tabBarActiveTintColor: theme.colors.text,
+        tabBarInactiveTintColor: theme.colors.textMuted,
         tabBarStyle: {
-          backgroundColor: theme.background,
-          borderTopColor: theme.border,
+          backgroundColor: theme.colors.background,
+          borderTopColor: theme.colors.border,
         },
       }}
     >

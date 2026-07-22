@@ -1,6 +1,5 @@
-import { AppTheme } from "@/src/Colors/colors";
+import { AppTheme } from "@/src/constants/colors";
 import { useMovie } from "@/src/hooks/useMovie";
-import React from "react";
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
 
 export default function SettingScreen() {

@@ -1,9 +1,10 @@
-import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
+import { AppTheme } from "@/src/constants/colors";
 import { useDebounce } from "@/src/hooks/useDebounse";
 import { useMovie } from "@/src/hooks/useMovie";
+import { createStyles, useStyles } from "@/src/theme";
 import { UserMovie } from "@/src/types/UserMovie";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -18,8 +19,8 @@ export default function Search() {
   const [movies, setMovies] = useState<UserMovie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const debounceSearchTerm = useDebounce(searchText, 700);
-  const { theme } = useMovie();
-  const styles = getStyles(theme);
+
+  const { styles } = useStyles(stylesheet);
 
   const searchMovies = async (text: string) => {
     if (text.length === 0) {
@@ -88,32 +89,31 @@ export default function Search() {
   );
 }
 
-const getStyles = (theme: AppTheme) =>
-  StyleSheet.create({
-    main: {
-      flex: 1,
-      backgroundColor: theme.background,
-    },
-    input: {
-      borderWidth: 1,
-      borderRadius: 5,
-      borderColor: theme.border,
-      marginHorizontal: 5,
-      marginVertical: 15,
-      backgroundColor: "#ecedee",
-    },
-    list: {
-      // borderColor: "#44575c",
-      marginHorizontal: 5,
-      marginTop: 10,
-      marginBottom: 50,
-    },
-    loader: {
-      marginVertical: 10,
-    },
-    text: {
-      color: theme.text,
-      fontSize: 16,
-      marginLeft: 10,
-    },
-  });
+const stylesheet = createStyles((theme) => ({
+  main: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: theme.colors.border,
+    marginHorizontal: 5,
+    marginVertical: 15,
+    backgroundColor: "#ecedee",
+  },
+  list: {
+    // borderColor: "#44575c",
+    marginHorizontal: 5,
+    marginTop: 10,
+    marginBottom: 50,
+  },
+  loader: {
+    marginVertical: 10,
+  },
+  text: {
+    color: theme.colors.text,
+    fontSize: 16,
+    marginLeft: 10,
+  },
+}));

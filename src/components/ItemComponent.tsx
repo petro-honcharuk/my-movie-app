@@ -1,7 +1,6 @@
 import { useRouter } from "expo-router";
-import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { AppTheme } from "../Colors/colors";
+import { AppTheme } from "../constants/colors";
 import { useMovie } from "../hooks/useMovie";
 import { GENRES_MAP } from "../types/Genres";
 import { UserMovie } from "../types/UserMovie";

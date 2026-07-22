@@ -1,13 +1,11 @@
-import { AppTheme } from "@/src/Colors/colors";
 import Cart from "@/src/components/Cart";
-import { useMovie } from "@/src/hooks/useMovie";
+import { createStyles, useStyles } from "@/src/theme";
 import { useRouter } from "expo-router";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
-  const { theme } = useMovie();
-  const styles = getStyles(theme);
+  const { styles } = useStyles(stylesheet);
 
   return (
     <View style={styles.main}>
@@ -26,18 +24,17 @@ export default function Index() {
   );
 }
 
-const getStyles = (theme: AppTheme) =>
-  StyleSheet.create({
-    main: {
-      flex: 1,
-      backgroundColor: theme.background,
-    },
-    input: {
-      borderWidth: 1,
-      borderRadius: 5,
-      borderColor: theme.border,
-      marginHorizontal: 5,
-      marginVertical: 10,
-      backgroundColor: "#ecedee",
-    },
-  });
+const stylesheet = createStyles((theme) => ({
+  main: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+  input: {
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: theme.border,
+    marginHorizontal: 5,
+    marginVertical: 10,
+    backgroundColor: "#ecedee",
+  },
+}));

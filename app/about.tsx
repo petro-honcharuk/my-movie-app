@@ -1,11 +1,8 @@
-import { AppTheme } from "@/src/Colors/colors";
-import { useMovie } from "@/src/hooks/useMovie";
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { createStyles, useStyles } from "@/src/theme";
+import { Text, View } from "react-native";
 
 export default function AboutScreen() {
-  const { theme } = useMovie();
-  const styles = getStyles(theme);
+  const { styles } = useStyles(stylesheet);
 
   return (
     <View style={styles.main}>
@@ -22,20 +19,19 @@ export default function AboutScreen() {
   );
 }
 
-const getStyles = (theme: AppTheme) =>
-  StyleSheet.create({
-    main: {
-      flex: 1,
-      backgroundColor: theme.background,
-    },
-    text: {
-      marginVertical: 10,
-      marginHorizontal: 8,
-      color: theme.text,
-      fontSize: 18,
-      backgroundColor: theme.cardBackground,
-      borderBottomColor: theme.border,
-      borderRadius: 8,
-      padding: 5,
-    },
-  });
+const stylesheet = createStyles((theme) => ({
+  main: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  text: {
+    marginVertical: 10,
+    marginHorizontal: 8,
+    color: theme.colors.text,
+    fontSize: 18,
+    backgroundColor: theme.colors.cardBackground,
+    borderBottomColor: theme.colors.border,
+    borderRadius: 8,
+    padding: 5,
+  },
+}));

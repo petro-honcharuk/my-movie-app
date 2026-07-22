@@ -1,9 +1,9 @@
-import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
+import { AppTheme } from "@/src/constants/colors";
 import { useMovie } from "@/src/hooks/useMovie";
 import { MovieListType, UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 
 type MovieGridParams = {

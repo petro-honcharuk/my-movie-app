@@ -1,21 +1,11 @@
-import { AppTheme } from "@/src/Colors/colors";
-import { useMovie } from "@/src/hooks/useMovie";
+import { createStyles, useStyles } from "@/src/theme";
 import { useRouter } from "expo-router";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ImageBackground, Text, TouchableOpacity, View } from "react-native";
 
 export default function Setting() {
   const router = useRouter();
-  const { theme, isDarkMode } = useMovie();
-  const styles = getStyles(theme);
-  const requireImage = isDarkMode
-    ? require("@/assets/images/fonSetting.jpg")
-    : require("@/assets/images/fonStatistic2.jpg");
+  const { styles, theme } = useStyles(stylesheet);
+
   return (
     <View style={styles.main}>
       <TouchableOpacity
@@ -23,7 +13,7 @@ export default function Setting() {
         onPress={() => router.push("/statisticScreen")}
       >
         <ImageBackground
-          source={requireImage}
+          source={theme.images.fonSetting}
           style={styles.image}
           imageStyle={{ borderRadius: 8 }}
         >
@@ -35,7 +25,7 @@ export default function Setting() {
         onPress={() => router.push("/settingScreen")}
       >
         <ImageBackground
-          source={requireImage}
+          source={theme.images.fonSetting}
           style={styles.image}
           imageStyle={{ borderRadius: 8 }}
         >
@@ -44,10 +34,10 @@ export default function Setting() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.block}
-        onPress={() => router.push("/aboutScreen")}
+        onPress={() => router.push("/about")}
       >
         <ImageBackground
-          source={requireImage}
+          source={theme.images.fonSetting}
           style={styles.image}
           imageStyle={{ borderRadius: 8 }}
         >
@@ -57,28 +47,28 @@ export default function Setting() {
     </View>
   );
 }
-const getStyles = (theme: AppTheme) =>
-  StyleSheet.create({
-    main: {
-      flex: 1,
-      backgroundColor: theme.background,
-    },
-    block: {
-      height: 90,
-      marginVertical: 20,
-      marginHorizontal: 10,
-      backgroundColor: theme.cardBackground,
-      borderBottomColor: theme.border,
-      borderRadius: 8,
-    },
-    settingText: {
-      fontSize: 20,
-      color: theme.text,
-    },
-    image: {
-      height: "100%",
-      width: "100%",
-      alignItems: "center",
-      justifyContent: "center",
-    },
-  });
+
+const stylesheet = createStyles((theme) => ({
+  main: {
+    flex: 1,
+    backgroundColor: theme.colors.background,
+  },
+  block: {
+    height: 90,
+    marginVertical: 20,
+    marginHorizontal: 10,
+    backgroundColor: theme.colors.cardBackground,
+    borderBottomColor: theme.colors.border,
+    borderRadius: 8,
+  },
+  settingText: {
+    fontSize: 20,
+    color: theme.colors.text,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+}));

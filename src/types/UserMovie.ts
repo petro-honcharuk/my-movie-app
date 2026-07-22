@@ -1,26 +1,84 @@
-type MovieStatus = "watched" | "watchlist" | "dropped" | "rewatch";
-export interface UserMovie {
+export interface GenresResponse {
+  genres: Genre[];
+}
+
+export interface SearchMovieResponse {
+  page: number;
+  results: SearchMovieResult[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface SearchMovieResult {
+  adult: boolean;
+  backdrop_path?: string;
+  genre_ids: number[];
   id: number;
   title: string;
-  genre_ids: number[];
-  vote_average: number;
-  poster_path: string | null;
-  isFavorite?: boolean;
-  status?: MovieStatus;
-  watchCount?: number;
-  userNotes?: string;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path?: string;
   release_date: string;
-  runtime?: number;
+  softcore: boolean;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
 }
-export type MovieListType = "watched" | "wantToWatch" | "favorites";
-export type HomeStackParamList = {
-  Home: undefined; // Параметри не потрібні
-  Search: undefined; // Параметри не потрібні
-  MovieGrid: {
-    listType: MovieListType; // Передаємо тип списку (що саме показувати)
-    title: string; // Заголовок екрана (напр. "Мої улюблені")
-  };
-  MovieDetails: {
-    movieId: number; // Обов'язковий ID фільму для запиту до API
-  };
-};
+
+export interface MovieDetails {
+  adult: boolean;
+  backdrop_path: string;
+  belongs_to_collection: any;
+  budget: number;
+  genres: Genre[];
+  homepage: string;
+  id: number;
+  imdb_id: string;
+  origin_country: string[];
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
+  release_date: string;
+  revenue: number;
+  runtime: number;
+  softcore: boolean;
+  spoken_languages: SpokenLanguage[];
+  status: string;
+  tagline: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+  isFavorite?: boolean;
+  isWantToWatch?: boolean;
+  isWatched?: boolean;
+}
+
+export interface Genre {
+  id: number;
+  name: string;
+}
+
+export interface ProductionCompany {
+  id: number;
+  logo_path: any;
+  name: string;
+  origin_country: string;
+}
+
+export interface ProductionCountry {
+  iso_3166_1: string;
+  name: string;
+}
+
+export interface SpokenLanguage {
+  english_name: string;
+  iso_639_1: string;
+  name: string;
+}
