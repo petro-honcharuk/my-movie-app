@@ -11,14 +11,6 @@ export default function Index() {
 
   return (
     <View style={styles.main}>
-      {/* <TouchableOpacity onPress={() => router.push("/search")}>
-        <TextInput
-          style={styles.input}
-          placeholder="Введіть назву фільму..."
-          editable={false}
-          pointerEvents="none"
-        />
-      </TouchableOpacity> */}
       <Cart title="Топ моїх улюблених фільмів" listType="favorites" />
       <Cart title="Фільми які я хочу подивитися" listType="wantToWatch" />
       <Cart title="Показати всі переглянуті фільми" listType="watched" />

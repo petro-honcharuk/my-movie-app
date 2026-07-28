@@ -1,25 +1,21 @@
 import { AppTheme } from "@/src/Colors/colors";
 import { useTheme } from "@/src/hooks/useTheme";
-import { StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
-  //const router = useRouter();
+  const router = useRouter();
   const { theme } = useTheme();
   const styles = getStyles(theme);
 
   return (
     <View style={styles.main}>
-      {/* <TouchableOpacity onPress={() => router.push("/search")}>
-        <TextInput
-          style={styles.input}
-          placeholder="Введіть назву фільму..."
-          editable={false}
-          pointerEvents="none"
-        />
-      </TouchableOpacity> */}
-      {/* <Cart title="Топ моїх улюблених фільмів" listType="favorites" />
-      <Cart title="Фільми які я хочу подивитися" listType="wantToWatch" />
-      <Cart title="Показати всі переглянуті фільми" listType="watched" /> */}
+      <TouchableOpacity
+        style={styles.btn}
+        onPress={() => router.push("/(auth)/login")}
+      >
+        <Text>На логін</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -29,6 +25,8 @@ const getStyles = (theme: AppTheme) =>
     main: {
       flex: 1,
       backgroundColor: theme.background,
+      alignItems: "center",
+      justifyContent: "center",
     },
     input: {
       borderWidth: 1,
@@ -37,5 +35,14 @@ const getStyles = (theme: AppTheme) =>
       marginHorizontal: 5,
       marginVertical: 10,
       backgroundColor: "#ecedee",
+    },
+    btn: {
+      marginHorizontal: 10,
+      marginVertical: 10,
+      backgroundColor: "#077eba",
+      height: 40,
+      width: "90%",
+      alignItems: "center",
+      justifyContent: "center",
     },
   });

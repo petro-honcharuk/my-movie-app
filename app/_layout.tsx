@@ -5,8 +5,10 @@ import {
   navigationLightTheme,
 } from "@/src/context/ThemeContext";
 import { useTheme } from "@/src/hooks/useTheme";
+import { supabase } from "@/src/services/supabase";
 import { ThemeProvider } from "@react-navigation/native";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
+import { useEffect } from "react";
 
 // 1. ГОЛОВНИЙ КОМПОНЕНТ (Він лише ініціалізує контекст і не використовує хуки зверху)
 export default function RootLayout() {
@@ -22,6 +24,21 @@ export default function RootLayout() {
 // 2. ВНУТРІШНІЙ КОМПОНЕНТ (Тепер він всередині MovieProvider і хук useMovie працюватиме ідеально!)
 function AppNavigationContent() {
   const { isDarkMode } = useTheme();
+  const router = useRouter();
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        router.replace("/(tabs)");
+      } else {
+        router.replace("/login");
+      }
+    });
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [router]);
 
   const currentNavigationTheme = isDarkMode
     ? navigationDarkTheme
@@ -31,10 +48,8 @@ function AppNavigationContent() {
     <ThemeProvider value={currentNavigationTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="search"
-          options={{ headerTitleAlign: "center", title: "Пошук" }}
-        />
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+
         <Stack.Screen
           name="movie_grid"
           options={{ headerTitleAlign: "center", title: "Фільми" }}
