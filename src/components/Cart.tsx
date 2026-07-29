@@ -1,14 +1,8 @@
 import { useRouter } from "expo-router";
 import React from "react";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AppTheme } from "../Colors/colors";
-import { useMovie } from "../hooks/useMovie";
+import { useTheme } from "../hooks/useTheme";
 import { MovieListType } from "../types/UserMovie";
 
 type Props = {
@@ -18,15 +12,12 @@ type Props = {
 
 export default function Cart({ title, listType }: Props) {
   const router = useRouter();
-  const { theme, isDarkMode } = useMovie();
+  const { theme, isDarkMode } = useTheme();
   const styles = getStyles(theme);
-  const requireImage = isDarkMode
-    ? require("@/assets/images/fon2.jpg")
-    : require("@/assets/images/fonStatistic2.jpg");
 
   const handlePress = () => {
     router.push({
-      pathname: "/movieGrid",
+      pathname: "/movie_grid",
       params: {
         listType: listType,
         title: title,
@@ -35,15 +26,11 @@ export default function Cart({ title, listType }: Props) {
   };
   return (
     <TouchableOpacity style={styles.btnCard} onPress={handlePress}>
-      <ImageBackground
-        source={requireImage}
-        style={styles.fonImage}
-        imageStyle={{ borderRadius: 8 }}
-      >
+      <View style={styles.fonImage}>
         <View>
           <Text style={styles.cardText}>{title}:</Text>
         </View>
-      </ImageBackground>
+      </View>
     </TouchableOpacity>
   );
 }

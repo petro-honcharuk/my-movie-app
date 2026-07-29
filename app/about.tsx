@@ -1,10 +1,10 @@
 import { AppTheme } from "@/src/Colors/colors";
-import { useMovie } from "@/src/hooks/useMovie";
+import { useTheme } from "@/src/hooks/useTheme";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export default function AboutScreen() {
-  const { theme } = useMovie();
+  const { theme } = useTheme();
   const styles = getStyles(theme);
 
   return (

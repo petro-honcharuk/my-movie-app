@@ -1,11 +1,13 @@
 import { AppTheme } from "@/src/Colors/colors";
 import { useMovie } from "@/src/hooks/useMovie";
+import { useTheme } from "@/src/hooks/useTheme";
 import { GENRES_MAP } from "@/src/types/Genres";
 import React from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function StatisticScreen() {
-  const { isWatched, favorites, theme, isDarkMode } = useMovie();
+  const { isWatched, favorites } = useMovie();
+  const { theme, isDarkMode } = useTheme();
   const styles = getStyles(theme);
   const totalMinutes = isWatched.reduce((sum, film) => {
     return sum + (film.runtime || 100);
@@ -37,47 +39,27 @@ export default function StatisticScreen() {
     ? GENRES_MAP[favoriteGenreId]
     : "Ще немає даних";
 
-  const requireImage = isDarkMode
-    ? require("@/assets/images/fonStatistic.jpg")
-    : require("@/assets/images/fonStatistic2.jpg");
-
   return (
     <View style={styles.main}>
-      <ImageBackground
-        style={styles.row}
-        source={requireImage}
-        imageStyle={{ borderRadius: 8 }}
-      >
+      <View style={styles.row}>
         <Text style={styles.text}>Переглянутих фільмів 👁️:</Text>
         <Text style={styles.number}>{isWatched.length}</Text>
-      </ImageBackground>
+      </View>
 
-      <ImageBackground
-        style={styles.row}
-        source={requireImage}
-        imageStyle={{ borderRadius: 8 }}
-      >
+      <View style={styles.row}>
         <Text style={styles.text}>Улюблених фільмів ⭐:</Text>
         <Text style={styles.number}>{favorites.length}</Text>
-      </ImageBackground>
-      <ImageBackground
-        style={styles.row}
-        source={requireImage}
-        imageStyle={{ borderRadius: 8 }}
-      >
+      </View>
+      <View style={styles.row}>
         <Text style={styles.text}>Улюблений жанр 📹:</Text>
         <Text style={styles.number}>{favoriteGenreName}</Text>
-      </ImageBackground>
-      <ImageBackground
-        style={styles.row}
-        source={requireImage}
-        imageStyle={{ borderRadius: 8 }}
-      >
+      </View>
+      <View style={styles.row}>
         <Text style={styles.text}>Час у кіно ⏱:</Text>
         <Text style={styles.text}>
           {Math.floor(totalMinutes / 60)} год. {totalMinutes % 60} хв.
         </Text>
-      </ImageBackground>
+      </View>
     </View>
   );
 }

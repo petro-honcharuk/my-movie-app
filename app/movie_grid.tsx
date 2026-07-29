@@ -1,6 +1,7 @@
 import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
 import { useMovie } from "@/src/hooks/useMovie";
+import { useTheme } from "@/src/hooks/useTheme";
 import { MovieListType, UserMovie } from "@/src/types/UserMovie";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
@@ -13,7 +14,8 @@ type MovieGridParams = {
 
 export default function MovieGrig() {
   const { listType, title } = useLocalSearchParams<MovieGridParams>();
-  const { favorites, isWantToWatch, isWatched, theme } = useMovie();
+  const { favorites, isWantToWatch, isWatched } = useMovie();
+  const { theme } = useTheme();
   const [searchText, setSearchText] = useState("");
   const styles = getStyles(theme);
   let currentMovies: UserMovie[] = [];

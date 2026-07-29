@@ -1,7 +1,7 @@
 import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
 import { useDebounce } from "@/src/hooks/useDebounse";
-import { useMovie } from "@/src/hooks/useMovie";
+import { useTheme } from "@/src/hooks/useTheme";
 import { UserMovie } from "@/src/types/UserMovie";
 import React, { useEffect, useState } from "react";
 import {
@@ -18,7 +18,7 @@ export default function Search() {
   const [movies, setMovies] = useState<UserMovie[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const debounceSearchTerm = useDebounce(searchText, 700);
-  const { theme } = useMovie();
+  const { theme } = useTheme();
   const styles = getStyles(theme);
 
   const searchMovies = async (text: string) => {
@@ -27,7 +27,7 @@ export default function Search() {
       return;
     }
     setIsLoading(true);
-    const API_KEY = "60957792ffba17ec8b3c400a91e8f7b3";
+    const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=uk-UA&query=${encodeURIComponent(text)}`;
     try {
       const response = await fetch(url);
