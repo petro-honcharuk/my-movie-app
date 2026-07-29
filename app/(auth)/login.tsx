@@ -1,6 +1,7 @@
 import "react-native-url-polyfill/auto";
 
 import { supabase } from "@/src/services/supabase";
+import { AuthErrorsMessage } from "@/src/types/Auth";
 
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -18,7 +19,27 @@ export default function AppRegistred() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<AuthErrorsMessage>({});
   const singInWithEmail = async () => {
+    setErrors({});
+    const localErrors: AuthErrorsMessage = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.trim()) {
+      localErrors.email = "Емейл є обов'язковим полем";
+    } else if (!emailRegex.test(email)) {
+      localErrors.email = "Некоректний формат емейлу";
+    }
+
+    if (!password.trim()) {
+      localErrors.password = "Пароль є обов'язковим полем";
+    } else if (password.length < 6) {
+      localErrors.password = "Пароль має містити не менше 6 символів";
+    }
+    if (Object.keys(localErrors).length > 0) {
+      setErrors(localErrors);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
 
     try {
@@ -28,9 +49,11 @@ export default function AppRegistred() {
       });
 
       if (error) {
-        Alert.alert("Помилка", error.message);
+        setErrors({ general: error.message });
+        setLoading(false);
         return;
       }
+      router.push("/(tabs)");
     } catch (error) {
       if (error) {
         Alert.alert("Помилка", "Помилка підключення до бд");
@@ -49,6 +72,9 @@ export default function AppRegistred() {
           keyboardType="email-address"
           autoCapitalize="none"
         />
+        {errors.email ? (
+          <Text style={styles.errorText}>{errors.email}</Text>
+        ) : null}
       </View>
       <View style={styles.container}>
         <Text style={styles.label}>Пароль</Text>
@@ -58,7 +84,13 @@ export default function AppRegistred() {
           onChangeText={setPassword}
           secureTextEntry={true}
         />
+        {errors.password ? (
+          <Text style={styles.errorText}>{errors.password}</Text>
+        ) : null}
       </View>
+      {errors.general ? (
+        <Text style={styles.errorText}>{errors.general}</Text>
+      ) : null}
       <TouchableOpacity
         style={[styles.button, loading && styles.buttonDisabled]}
         onPress={singInWithEmail}
@@ -118,5 +150,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "600",
+  },
+  errorText: {
+    marginVertical: 8,
+    marginLeft: 10,
+    fontSize: 14,
+    color: "red",
   },
 });
