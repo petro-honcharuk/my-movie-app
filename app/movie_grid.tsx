@@ -66,6 +66,7 @@ const getStyles = (theme: AppTheme) =>
     main: {
       flex: 1,
       backgroundColor: theme.background,
+      marginBottom: 50,
     },
 
     input: {
