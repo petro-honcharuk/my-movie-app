@@ -22,9 +22,7 @@ export default function ItemComponent({ film }: Props) {
   return (
     <TouchableOpacity
       style={styles.main}
-      onPress={() =>
-        router.push({ pathname: "/details", params: { filmId: film.id } })
-      }
+      onPress={() => router.push(`/movie/${film.id}`)}
     >
       <View style={styles.imageParth}>
         <Image

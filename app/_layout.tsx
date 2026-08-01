@@ -54,10 +54,7 @@ function AppNavigationContent() {
           name="movie_grid"
           options={{ headerTitleAlign: "center", title: "Фільми" }}
         />
-        <Stack.Screen
-          name="details"
-          options={{ headerTitleAlign: "center", title: "Деталі фільму" }}
-        />
+        <Stack.Screen name="movie/[id]" options={{ headerShown: false }} />
         <Stack.Screen
           name="statistic"
           options={{
