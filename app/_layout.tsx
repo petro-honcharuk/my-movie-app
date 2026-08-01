@@ -50,10 +50,7 @@ function AppNavigationContent() {
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
 
-        <Stack.Screen
-          name="movie_grid"
-          options={{ headerTitleAlign: "center", title: "Фільми" }}
-        />
+        <Stack.Screen name="movie_grid" options={{ headerShown: false }} />
         <Stack.Screen name="movie/[id]" options={{ headerShown: false }} />
         <Stack.Screen
           name="statistic"

@@ -22,3 +22,15 @@ export const getMovieByCategory = async (
     console.error("Помилка TMDB запиту:", e.response?.data || e.message);
   }
 };
+
+export const searchMovieApi = async (query: string) => {
+  try {
+    const { data } = await movieApi.get("/3/search/movie", {
+      params: { query: query },
+    });
+    return data.results;
+  } catch (e) {
+    console.error("Search error ", e);
+    return [];
+  }
+};

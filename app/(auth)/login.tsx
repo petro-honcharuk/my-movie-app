@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "96%",
     marginLeft: "2%",
-    marginTop: 10,
+    marginTop: 20,
   },
   buttonDisabled: {
     opacity: 0.5,

@@ -170,7 +170,10 @@ export default function DetailsScreen() {
       </View>
       <View style={styles.overviewContainer}>
         <Text style={styles.titleOverview}>Опис сюжету фільму:</Text>
-        <Text style={styles.textOverview}>{movieDetails.overview}..</Text>
+        <Text style={styles.textOverview}>
+          {"\u00A0\u00A0\u00A0\u00A0"}
+          {movieDetails.overview}..
+        </Text>
       </View>
     </ScrollView>
   );
@@ -286,6 +289,8 @@ const getStyles = (theme: AppTheme) =>
     },
     textOverview: {
       fontSize: 14,
+
+      textAlign: "justify",
       color: theme.textMuted,
       lineHeight: 20,
     },

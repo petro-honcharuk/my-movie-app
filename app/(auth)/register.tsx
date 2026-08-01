@@ -99,6 +99,12 @@ export default function AppRegistred() {
       >
         <Text style={styles.buttonText}>Створити акаунт</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => router.push("/login")}
+      >
+        <Text style={styles.buttonText}>На сторінку входу</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -137,7 +143,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "96%",
     marginLeft: "2%",
-    marginTop: 10,
+    marginTop: 20,
   },
   buttonDisabled: {
     opacity: 0.5,

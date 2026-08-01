@@ -5,7 +5,14 @@ import { getMovieByCategory } from "@/src/services/movies";
 
 import { TMDBMovie } from "@/src/types/tmdb";
 import { useEffect, useState } from "react";
-import { FlatList, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 
 export default function Index() {
   const { theme } = useTheme();
@@ -40,33 +47,42 @@ export default function Index() {
 
   return (
     <View style={styles.main}>
-      <ScrollView>
-        <Text style={styles.titleMain}>Мій кінощоденник</Text>
-        <Text style={styles.title}>Переглядають зараз</Text>
-        <FlatList
-          data={nowPlaying}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <MovieComponent film={item} />}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
+      {!loading && (
+        <ScrollView>
+          <Text style={styles.titleMain}>Мій кінощоденник</Text>
+          <Text style={styles.title}>Переглядають зараз</Text>
+          <FlatList
+            data={nowPlaying}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <MovieComponent film={item} />}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+          <Text style={styles.title}>Топ рейтингу</Text>
+          <FlatList
+            data={popular}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <MovieComponent film={item} />}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+          <Text style={styles.title}>Анонс</Text>
+          <FlatList
+            data={upcoming}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <MovieComponent film={item} />}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+          />
+        </ScrollView>
+      )}
+      {loading && (
+        <ActivityIndicator
+          size="large"
+          color={theme.border}
+          style={styles.loader}
         />
-        <Text style={styles.title}>Топ рейтингу</Text>
-        <FlatList
-          data={popular}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <MovieComponent film={item} />}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-        <Text style={styles.title}>Анонс</Text>
-        <FlatList
-          data={upcoming}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <MovieComponent film={item} />}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
-      </ScrollView>
+      )}
     </View>
   );
 }
@@ -76,6 +92,9 @@ const getStyles = (theme: AppTheme) =>
     main: {
       flex: 1,
       backgroundColor: theme.background,
+    },
+    loader: {
+      marginVertical: 10,
     },
     titleMain: {
       alignSelf: "center",

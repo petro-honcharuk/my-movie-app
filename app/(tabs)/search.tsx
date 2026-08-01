@@ -2,7 +2,10 @@ import { AppTheme } from "@/src/Colors/colors";
 import ItemComponent from "@/src/components/ItemComponent";
 import { useDebounce } from "@/src/hooks/useDebounse";
 import { useTheme } from "@/src/hooks/useTheme";
+import { searchMovieApi } from "@/src/services/movies";
 import { UserMovie } from "@/src/types/UserMovie";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -10,6 +13,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 
@@ -27,19 +31,18 @@ export default function Search() {
       return;
     }
     setIsLoading(true);
-    const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=uk-UA&query=${encodeURIComponent(text)}`;
     try {
-      const response = await fetch(url);
-      if (!response.ok) throw new Error(`Помилка:${response.status}`);
-      const data = await response.json();
-      setMovies(data.results || []);
-
-      setIsLoading(false);
+      const results = await searchMovieApi(text);
+      setMovies(results || []);
     } catch (e) {
-      console.log("Помилка при звернені до сервера", e);
+      setMovies([]);
+    } finally {
       setIsLoading(false);
     }
+  };
+  const handlerSearchClear = () => {
+    setSearchText("");
+    setMovies([]);
   };
 
   useEffect(() => {
@@ -48,14 +51,34 @@ export default function Search() {
 
   return (
     <View style={styles.main}>
-      <TextInput
-        style={styles.input}
-        value={searchText}
-        onChangeText={(text) => {
-          setSearchText(text);
-        }}
-        autoFocus={true}
-      />
+      <View style={styles.inputContainer}>
+        <FontAwesome5 name="search" size={20} color="black" />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Знайти фільм..."
+          value={searchText}
+          onChangeText={(text) => {
+            setSearchText(text);
+          }}
+          autoFocus={true}
+        />
+        {searchText.length > 0 && (
+          <TouchableOpacity
+            onPress={handlerSearchClear}
+            style={styles.iconClose}
+          >
+            <MaterialIcons name="close" size={24} color="black" />
+          </TouchableOpacity>
+        )}
+      </View>
+      {isLoading && (
+        <ActivityIndicator
+          size="large"
+          color={theme.border}
+          style={styles.loader}
+        />
+      )}
 
       <FlatList
         data={movies}
@@ -63,24 +86,9 @@ export default function Search() {
         renderItem={({ item }) => <ItemComponent film={item} />}
         style={styles.list}
         ListEmptyComponent={() => {
-          // 1. Спочатку перевіряємо, чи введено взагалі щось
           if (searchText.length === 0) {
             return null;
           }
-
-          // 2. Якщо текст є і зараз йде завантаження — показуємо лоадер
-          if (isLoading) {
-            return (
-              <ActivityIndicator
-                size="large"
-                color="#1164d7"
-                style={styles.loader}
-              />
-            );
-          }
-
-          // 3. Якщо ми пройшли перші дві умови, це означає: текст є, завантаження завершено,
-          // а FlatList все одно викликав цей компонент (бо масив movies пустий).
           return <Text style={styles.text}>Нічого не знайдено...</Text>;
         }}
       />
@@ -94,16 +102,25 @@ const getStyles = (theme: AppTheme) =>
       flex: 1,
       backgroundColor: theme.background,
     },
-    input: {
+    inputContainer: {
+      flexDirection: "row",
       borderWidth: 1,
       borderRadius: 5,
-      borderColor: theme.border,
       marginHorizontal: 5,
       marginVertical: 15,
+      borderColor: theme.border,
       backgroundColor: "#ecedee",
+      alignItems: "center",
+      padding: 5,
+    },
+    input: {
+      flex: 1,
+      marginLeft: 3,
+    },
+    iconClose: {
+      padding: 4,
     },
     list: {
-      // borderColor: "#44575c",
       marginHorizontal: 5,
       marginTop: 10,
       marginBottom: 50,
