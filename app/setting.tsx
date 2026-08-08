@@ -1,11 +1,35 @@
 import { AppTheme } from "@/src/Colors/colors";
+import { useMovie } from "@/src/hooks/useMovie";
 import { useTheme } from "@/src/hooks/useTheme";
 import React from "react";
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function SettingScreen() {
   const { isDarkMode, toggleTheme, theme } = useTheme();
   const styles = getStyles(theme);
+  const { clearAllMovies } = useMovie();
+
+  const handlerClearAllMovies = () => {
+    Alert.alert(
+      "Очищення сховища",
+      "Ви впевнені що хочите очистити всі додані фільми з вашого щоденника? Даний вибір не можна буде скасувати!",
+      [
+        { text: "Скасувати", style: "cancel" },
+        {
+          text: "Очистити",
+          style: "destructive",
+          onPress: clearAllMovies,
+        },
+      ],
+    );
+  };
 
   return (
     <View style={styles.main}>
@@ -21,7 +45,10 @@ export default function SettingScreen() {
       </View>
       <View style={styles.row}>
         <Text style={styles.text}>Очистити сховище</Text>
-        <TouchableOpacity style={styles.btnClear}>
+        <TouchableOpacity
+          style={styles.btnClear}
+          onPress={handlerClearAllMovies}
+        >
           <Text style={styles.btnText}>Очистити</Text>
         </TouchableOpacity>
       </View>
@@ -66,7 +93,7 @@ const getStyles = (theme: AppTheme) =>
       justifyContent: "center",
     },
     btnText: {
-      color: theme.text,
+      color: "#fff",
       fontSize: 14,
       margin: 5,
     },

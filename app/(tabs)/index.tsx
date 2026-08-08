@@ -92,6 +92,7 @@ const getStyles = (theme: AppTheme) =>
     main: {
       flex: 1,
       backgroundColor: theme.background,
+      padding: 5,
     },
     loader: {
       marginVertical: 10,

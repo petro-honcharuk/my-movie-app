@@ -18,6 +18,7 @@ export default function AppRegistred() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<AuthErrorsMessage>({});
   const singUpWithEmail = async () => {
@@ -35,6 +36,11 @@ export default function AppRegistred() {
     } else if (password.length < 6) {
       localErrors.password = "Пароль має містити не менше 6 символів";
     }
+    if (!name.trim()) {
+      localErrors.password = "Імя користувача є обов'язковим полем";
+    } else if (password.length < 6) {
+      localErrors.name = "Імя має містити не менше 6 символів";
+    }
     if (Object.keys(localErrors).length > 0) {
       setErrors(localErrors);
       setLoading(false);
@@ -46,6 +52,11 @@ export default function AppRegistred() {
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
+        options: {
+          data: {
+            display_name: name,
+          },
+        },
       });
       if (error) {
         setErrors({ general: error.message });
@@ -88,6 +99,19 @@ export default function AppRegistred() {
         />
         {errors.password ? (
           <Text style={styles.errorText}>{errors.password}</Text>
+        ) : null}
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.label}>Імя користувача</Text>
+        <TextInput
+          style={styles.input}
+          value={name}
+          onChangeText={setName}
+          keyboardType="default"
+          autoCapitalize="none"
+        />
+        {errors.name ? (
+          <Text style={styles.errorText}>{errors.name}</Text>
         ) : null}
       </View>
       {errors.general ? (

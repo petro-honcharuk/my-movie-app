@@ -1,5 +1,5 @@
 import { AppTheme } from "@/src/Colors/colors";
-import ItemComponent from "@/src/components/ItemComponent";
+import MovieComponent from "@/src/components/MovieComponent";
 import { useMovie } from "@/src/hooks/useMovie";
 import { useTheme } from "@/src/hooks/useTheme";
 import { MovieListType, UserMovie } from "@/src/types/UserMovie";
@@ -71,8 +71,10 @@ export default function MovieGrig() {
       <FlatList
         data={displayMovies}
         style={styles.list}
+        numColumns={2}
+        columnWrapperStyle={styles.row}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => <ItemComponent film={item} />}
+        renderItem={({ item }) => <MovieComponent film={item} isGrid={true} />}
         ListEmptyComponent={() => <Text>У цьому списку ще немає фільмів</Text>}
       />
     </View>
@@ -118,6 +120,12 @@ const getStyles = (theme: AppTheme) =>
       backgroundColor: "#ecedee",
     },
     list: {
-      marginTop: 5,
+      marginTop: 3,
+      marginHorizontal: 15,
+    },
+    row: {
+      justifyContent: "space-between",
+      marginBottom: 14,
+      paddingHorizontal: 4,
     },
   });

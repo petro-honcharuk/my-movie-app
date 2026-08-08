@@ -8,8 +8,9 @@ import { GENRES_MAP } from "../types/Genres";
 import { UserMovie } from "../types/UserMovie";
 type Props = {
   film: UserMovie;
+  isGrid?: boolean;
 };
-export default function MovieComponent({ film }: Props) {
+export default function MovieComponent({ film, isGrid = false }: Props) {
   const router = useRouter();
   const { theme } = useTheme();
   const { favorites, isWantToWatch, isWatched } = useMovie();
@@ -21,7 +22,7 @@ export default function MovieComponent({ film }: Props) {
 
   return (
     <TouchableOpacity
-      style={styles.main}
+      style={isGrid ? styles.main : styles.carousel}
       onPress={() => router.push(`/movie/${film.id}`)}
     >
       <View style={styles.imageParth}>
@@ -42,7 +43,7 @@ export default function MovieComponent({ film }: Props) {
             {isDone && <Text>✅</Text>}
           </View>
           <Text style={styles.ratindText}>
-            Рік виходу: {film.release_date.slice(0, 4)}
+            Рік: {film.release_date.slice(0, 4)}
           </Text>
         </View>
         <Text style={styles.genreText} numberOfLines={1}>
@@ -60,13 +61,21 @@ export default function MovieComponent({ film }: Props) {
 const getStyles = (theme: AppTheme) =>
   StyleSheet.create({
     main: {
-      //height: 290,
-      width: 135, // Фіксована ширина для горизонтального скролу
+      flex: 1,
+      maxWidth: "47%",
       flexDirection: "column", // Картинка зверху, текст знизу
       borderRadius: 12,
       backgroundColor: theme.cardBackground,
       padding: 6,
-      marginRight: 12, // Відступ між картками вбік
+      //marginRight: 12, // Відступ між картками вбік
+    },
+    carousel: {
+      width: 135,
+      flexDirection: "column",
+      borderRadius: 12,
+      backgroundColor: theme.cardBackground,
+      padding: 6,
+      marginRight: 12,
     },
     imageParth: {
       height: 190, // Великий гарний постер

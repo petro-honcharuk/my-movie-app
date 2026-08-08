@@ -2,12 +2,27 @@ import { AppTheme } from "@/src/Colors/colors";
 import { useTheme } from "@/src/hooks/useTheme";
 import { supabase } from "@/src/services/supabase";
 import { useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function Setting() {
   const router = useRouter();
   const { theme } = useTheme();
   const styles = getStyles(theme);
+  const [userName, setUserName] = useState("Киноман");
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user?.user_metadata?.display_name) {
+        setUserName(user.user_metadata.display_name);
+      }
+    };
+    fetchUser();
+  }, []);
+
   const handleSignOut = async () => {
     try {
       await supabase.auth.signOut();
@@ -29,9 +44,15 @@ export default function Setting() {
 
   return (
     <View style={styles.main}>
-      <TouchableOpacity style={styles.btnOut} onPress={confirmSignOut}>
-        <Text style={styles.btnOutText}>Вийти</Text>
-      </TouchableOpacity>
+      <View style={styles.userPath}>
+        <View style={styles.userContainer}>
+          <View style={styles.avatar}></View>
+          <Text style={styles.textName}>{userName}</Text>
+        </View>
+        <TouchableOpacity style={styles.btnOut} onPress={confirmSignOut}>
+          <Text style={styles.btnOutText}>Вийти</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
         style={styles.block}
         onPress={() => router.push("/statistic")}
@@ -67,24 +88,48 @@ const getStyles = (theme: AppTheme) =>
       flex: 1,
       backgroundColor: theme.background,
     },
+    userPath: {
+      flexDirection: "row",
+      marginTop: 5,
+      marginHorizontal: 10,
+    },
+    userContainer: {
+      marginLeft: 30,
+      padding: 5,
+    },
+    avatar: {
+      width: 200,
+      height: 200,
+      borderRadius: 100,
+      backgroundColor: "white",
+    },
+    textName: {
+      color: theme.text,
+      fontSize: 16,
+      fontWeight: "bold",
+      alignSelf: "center",
+      marginTop: 10,
+    },
     btnOut: {
-      alignSelf: "flex-end",
-      width: 70,
-      height: 40,
+      position: "absolute",
+      top: 0,
+      right: 0,
+      width: 50,
+      height: 30,
       backgroundColor: "#285090",
       borderWidth: 1,
       borderRadius: 8,
       alignItems: "center",
       justifyContent: "center",
-      marginRight: 20,
-      marginTop: 10,
+      marginRight: 10,
+      marginTop: 5,
     },
     btnOutText: {
       color: "white",
-      fontSize: 16,
+      fontSize: 12,
     },
     block: {
-      height: 90,
+      height: 50,
       marginVertical: 20,
       marginHorizontal: 10,
       backgroundColor: theme.cardBackground,

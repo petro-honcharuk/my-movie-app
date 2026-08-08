@@ -11,6 +11,7 @@ interface MovieContextType {
   toggleFavorites: (film: UserMovie) => void;
   toggleWantToWatch: (film: UserMovie) => void;
   toggleWatched: (film: UserMovie) => void;
+  clearAllMovies: () => void;
 }
 export const MovieContext = createContext<MovieContextType | undefined>(
   undefined,
@@ -37,6 +38,19 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
     };
     loadingFilms();
   }, []);
+
+  const clearAllMovies = async () => {
+    try {
+      await AsyncStorage.removeItem("my_favorites");
+      await AsyncStorage.removeItem("my_want_to_watch");
+      await AsyncStorage.removeItem("my_watched_films");
+      setFavorites([]);
+      setIsWantToWatch([]);
+      setIsWatched([]);
+    } catch (e) {
+      console.log("Помилка при очищені сховища", e);
+    }
+  };
 
   const toggleFavorites = async (film: UserMovie) => {
     // 1. Шукаємо по ID, чи є фільм у списку
@@ -100,6 +114,7 @@ export const MovieProvider = ({ children }: { children: React.ReactNode }) => {
         toggleFavorites,
         toggleWantToWatch,
         toggleWatched,
+        clearAllMovies,
       }}
     >
       {children}
